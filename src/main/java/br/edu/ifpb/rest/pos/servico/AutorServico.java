@@ -30,7 +30,7 @@ public class AutorServico {
         return this.repositorio.list(Autor.class);
     }
 
-    public Optional<Autor> LivroComId(Long id) {
+    public Optional<Autor> AutorComId(Long id) {
         Autor autor = repositorio.find(Autor.class, id);
 
         return Optional.of(autor);
@@ -38,7 +38,7 @@ public class AutorServico {
     }
 
     public Optional<Autor> removerAutorCom(Long id) {
-        Optional<Autor> autor = LivroComId(id);
+        Optional<Autor> autor = AutorComId(id);
 
         if (autor.isPresent()) {
             this.repositorio.remove(autor.get());
@@ -48,12 +48,19 @@ public class AutorServico {
     }
 
     public Optional<Autor> atualizarAutorCom(Long id, Autor autor) {
-        Optional<Autor> retorno = LivroComId(id);
+        Optional<Autor> retorno = AutorComId(id);
 
         if (retorno.isPresent()) {
             this.repositorio.update(autor);
         }
 
         return Optional.of(autor);
+    }
+
+    public Optional<Autor> autorPorNome(String nome) {
+        List<Autor> list = this.repositorio.list(Autor.class);
+     return   list.stream()                       
+                .filter(x -> nome.equalsIgnoreCase(x.getNome())).findAny();      
+                 
     }
 }

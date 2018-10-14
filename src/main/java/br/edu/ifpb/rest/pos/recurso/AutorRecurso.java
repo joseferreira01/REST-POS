@@ -6,9 +6,7 @@
 package br.edu.ifpb.rest.pos.recurso;
 
 import br.edu.ifpb.rest.pos.dominio.Autor;
-import br.edu.ifpb.rest.pos.dominio.Livro;
 import br.edu.ifpb.rest.pos.servico.AutorServico;
-import br.edu.ifpb.rest.pos.servico.LivroServico;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
@@ -18,7 +16,6 @@ import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.PUT;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -63,15 +60,16 @@ public class AutorRecurso implements Serializable{
                 .entity(entity)
                 .build();
     }
- @GET
+ 
+    @POST
     @Path("{id}") //http://localhost:8080/dac-rest/api/integrantes/1
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response integrante(@PathParam("id") Long id,@Context UriInfo uriInfo) {
-        
-        Optional<Autor> entity = this.servico.LivroComId(id);
-          
+    public Response atualizarAutor(
+            @PathParam("id") Long id, Autor autor,@Context UriInfo uriInfo) {
+        Optional<Autor> entity = this.servico.atualizarAutorCom(id, autor);
+         
         URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
-        Response.created(location)
+         Response.created(location)
 //                .header("Access-Control-Allow-Origin", "*")
                 .entity(entity)
                 .build();
@@ -82,14 +80,15 @@ public class AutorRecurso implements Serializable{
         }
 
         return Response.ok() // 200
-//                .header("Access-Control-Allow-Origin", "*")
                 .entity(entity.get())
                 .build();
     }
+    
+ 
     @DELETE
     @Path("{id}") //http://localhost:8080/dac-rest/api/integrantes/1
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response removerLivro(@PathParam("id") Long id,@Context UriInfo uriInfo) {
+    public Response removerAutor(@PathParam("id") Long id,@Context UriInfo uriInfo) {
         Optional<Autor> entity = this.servico.removerAutorCom(id);
         
         URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
@@ -107,14 +106,14 @@ public class AutorRecurso implements Serializable{
                 .entity(entity.get())
                 .build();
     }
-    @POST
-    @Path("{id}") //http://localhost:8080/dac-rest/api/integrantes/1
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response atualizarAutor(
-            @PathParam("id") Long id, Autor autor,@Context UriInfo uriInfo) {
-        Optional<Autor> entity = this.servico.atualizarAutorCom(id, autor);
+    @GET
+    @Path("{nome}")
+    //@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response autorPorNome(
+            @PathParam("nome") String nome,@Context UriInfo uriInfo) {
+        Optional<Autor> entity = this.servico.autorPorNome(nome);
          
-        URI location = uriInfo.getAbsolutePathBuilder().path(String.valueOf(id)).build();
+        URI location = uriInfo.getAbsolutePathBuilder().path(nome).build();
          Response.created(location)
 //                .header("Access-Control-Allow-Origin", "*")
                 .entity(entity)
