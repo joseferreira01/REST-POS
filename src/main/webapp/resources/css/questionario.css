@@ -1,0 +1,20 @@
+.pergunta{
+    color: #EF3B3A;
+    position:relative; 
+    text-align: center;
+    font-size: 18px;
+    align-items: stretch;
+        left: -5%;
+}
+.resposta{
+    color: #EF3B3A;
+
+    background-color: #28a4c9;
+}
+.quest{
+    position: relative;
+    
+    padding-left: -10%; /* 540/720 */
+    padding-right: 1%; 
+    /*background-color: #1b6d85*/
+}
